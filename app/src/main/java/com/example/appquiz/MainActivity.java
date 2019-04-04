@@ -4,6 +4,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -16,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -99,6 +101,50 @@ public class MainActivity extends AppCompatActivity {
             nombresPersonajes.add(personajes.get(i).attr("alt"));
             imagenesPersonajes.add(personajes.get(i).attr("data-original"));
         }
+        elegirPersonajes();
+        elegirPersonajes();
+        elegirPersonajes();
+        elegirPersonajes();
+        elegirPersonajes();
+        elegirPersonajes();
+        elegirPersonajes();
+
+    }
+    public void iniciarJuego(View view){
+        //int personaje2=
+    }
+    public int numeroAleatorio(int pLargoLista){
+        //generador de numeros aleatorios
+        Random generadorAleatorios = new Random();
+        //Genera un número entre 0 y el largo del arreglo de personajes
+        int numero = generadorAleatorios.nextInt(pLargoLista+1);
+        return numero;
+    }
+    public void elegirPersonajes(){
+        int largoPersonajes = nombresPersonajes.size()-1;
+        int personaje1=numeroAleatorio(largoPersonajes);
+        int personaje2=numeroAleatorio(largoPersonajes);
+        int personaje3=numeroAleatorio(largoPersonajes);
+        int personaje4=numeroAleatorio(largoPersonajes);
+        if(personaje2==personaje1){
+            while(personaje1==personaje2){
+                personaje2=numeroAleatorio(largoPersonajes);
+            }
+        }
+        if(personaje3==personaje1 || personaje3==personaje2){
+            while(personaje3==personaje1 || personaje3==personaje2){
+                personaje3=numeroAleatorio(largoPersonajes);
+            }
+        }
+        if(personaje4==personaje1 || personaje4==personaje2 || personaje4==personaje3){
+            while(personaje4==personaje1 || personaje4==personaje2 || personaje4==personaje3){
+                personaje4=numeroAleatorio(largoPersonajes);
+            }
+        }
+        Log.i("PERSONAJE1:",String.valueOf(personaje1));
+        Log.i("PERSONAJE2:",String.valueOf(personaje2));
+        Log.i("PERSONAJE3:",String.valueOf(personaje3));
+        Log.i("PERSONAJE4:",String.valueOf(personaje4));
     }
 }
 
