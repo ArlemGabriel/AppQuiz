@@ -1,13 +1,21 @@
 package com.example.appquiz;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     // Primero: tipo de variable que le vamos a mandar a la clases para decirle qué hacer. En este caso, un url
     // Segundo: nombre de método que podríamos usar para mostrar el progreso de la tarea
     // Tercero: tipo de variable que va a ser retornado por la clase
+    ArrayList<String> nombresPersonajes = new ArrayList<>();
+    ArrayList<String> imagenesPersonajes = new ArrayList<>();
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -63,14 +73,25 @@ public class MainActivity extends AppCompatActivity {
         DownloadTask downloadTask = new DownloadTask();
         String result = null;
         try {
-            result = downloadTask.execute("https://listas.20minutos.es/lista/cual-es-tu-personaje-favorito-de-nanatsu-no-taizai-421522").get();
+            result = downloadTask.execute("https://listas.20minutos.es/lista/personajes-de-shingeki-no-kyojin-380789/").get();
+            parsearHTML(result);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
-        Log.i("Result", result);
+        //Log.i("Result", result);
     }
+    public void parsearHTML(String html){
+        Log.i("ENTRE","PARSEAR");
+        if(html!=null) {
+            Document doc = Jsoup.parse(html);
+            Elements personajes = doc.select("div .picture a img.lazy");
+        }else{
+            Toast.makeText(this,"El html está vacío",Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
 
