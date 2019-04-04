@@ -88,10 +88,17 @@ public class MainActivity extends AppCompatActivity {
         if(html!=null) {
             Document doc = Jsoup.parse(html);
             Elements personajes = doc.select("div .picture a img.lazy");
+            arregloPersonajes(personajes);
         }else{
             Toast.makeText(this,"El html está vacío",Toast.LENGTH_LONG).show();
         }
     }
-
+    public void arregloPersonajes(Elements personajes){
+        int largoPersonajes = personajes.size()-1;
+        for(int i=0;i<=largoPersonajes;i++){
+            nombresPersonajes.add(personajes.get(i).attr("alt"));
+            imagenesPersonajes.add(personajes.get(i).attr("data-original"));
+        }
+    }
 }
 
