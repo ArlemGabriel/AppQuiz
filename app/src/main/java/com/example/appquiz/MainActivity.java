@@ -135,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         iniciarJuego();
     }
     public void iniciarJuego(){
+        establecerImagenBotones();
+        desactivarBtnSiguiente();
         ArrayList<Integer> personajesElegidos = new ArrayList<Integer>();
         ArrayList<String> personajes= new ArrayList<String>();
 
@@ -228,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnOp1 = (Button)findViewById(R.id.btnOpcion1);
         if(btnOp1.getText() == personajeActualStr){
             btnOp1.setBackgroundResource(R.drawable.correcto);
+            activarBtnSiguiente();
         }else{
             btnOp1.setBackgroundResource(R.drawable.incorrecto);
         }
@@ -236,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnOp2 = (Button)findViewById(R.id.btnOpcion2);
         if(btnOp2.getText() == personajeActualStr){
             btnOp2.setBackgroundResource(R.drawable.correcto);
+            activarBtnSiguiente();
         }else{
             btnOp2.setBackgroundResource(R.drawable.incorrecto);
         }
@@ -244,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnOp3 = (Button)findViewById(R.id.btnOpcion3);
         if(btnOp3.getText() == personajeActualStr){
             btnOp3.setBackgroundResource(R.drawable.correcto);
+            activarBtnSiguiente();
         }else{
             btnOp3.setBackgroundResource(R.drawable.incorrecto);
         }
@@ -252,9 +257,31 @@ public class MainActivity extends AppCompatActivity {
         Button btnOp4 = (Button)findViewById(R.id.btnOpcion4);
         if(btnOp4.getText() == personajeActualStr){
             btnOp4.setBackgroundResource(R.drawable.correcto);
+            activarBtnSiguiente();
         }else{
             btnOp4.setBackgroundResource(R.drawable.incorrecto);
         }
+    }
+    public void btnSiguienteClicked(View view){
+        iniciarJuego();
+    }
+    public void establecerImagenBotones(){
+        Button btnOp1 = (Button)findViewById(R.id.btnOpcion1);
+        btnOp1.setBackgroundResource(R.drawable.opcion1);
+        Button btnOp2 = (Button)findViewById(R.id.btnOpcion2);
+        btnOp2.setBackgroundResource(R.drawable.opcion2);
+        Button btnOp3 = (Button)findViewById(R.id.btnOpcion3);
+        btnOp3.setBackgroundResource(R.drawable.opcion3);
+        Button btnOp4 = (Button)findViewById(R.id.btnOpcion4);
+        btnOp4.setBackgroundResource(R.drawable.opcion4);
+    }
+    public void activarBtnSiguiente(){
+        Button btnSiguiente = (Button)findViewById(R.id.btnSiguiente);
+        btnSiguiente.setEnabled(true);
+    }
+    public void desactivarBtnSiguiente(){
+        Button btnSiguiente = (Button)findViewById(R.id.btnSiguiente);
+        btnSiguiente.setEnabled(false);
     }
 }
 
