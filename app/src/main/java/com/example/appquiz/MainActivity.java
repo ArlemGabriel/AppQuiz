@@ -36,39 +36,18 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> imagenesPersonajes = new ArrayList<>();
     int personajeActual;
     String personajeActualStr;
-    public class DownloadTask extends AsyncTask<String, Void, String> {
+    public class DownloadTask extends AsyncTask<String, Void, Document> {
 
         @Override
-        protected String doInBackground(String... urls) {
-
-            String result = "";
-            URL url;
-
-            // Agregar permiso en AndroidManifest.xml
-            HttpURLConnection urlConnection = null;
-
-            try {
-                url = new URL(urls[0]);
-
-                urlConnection = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = urlConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-                // Esto es muy estilo C
-                // Se lee un caracter a la vez (como cuando se hace gets() en C o C++)
-                int data = inputStreamReader.read();
-                while (data != -1){
-                    char character = (char)data;
-                    result += character;
-                    data = inputStreamReader.read();
-                }
-
-                return result;
+        protected Document doInBackground(String... urls) {
+            try{
+                Document document = Jsoup.connect(urls[0]).get();
+                return document;
             }
             catch (Exception e){
                 e.printStackTrace();
-                return "Error";
             }
+            return null;
         }
     }
     public class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
@@ -104,10 +83,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void cargarHTML(){
         DownloadTask downloadTask = new DownloadTask();
-        String result = null;
+        //String result = null;
+        Document doc;
         try {
-            result = downloadTask.execute("https://listas.20minutos.es/lista/personajes-de-shingeki-no-kyojin-380789/").get();
-            parsearHTML(result);
+            doc = downloadTask.execute("https://listas.20minutos.es/lista/personajes-de-shingeki-no-kyojin-380789/").get();
+            cargarElementos(doc);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -116,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Log.i("Result", result);
     }
-    public void parsearHTML(String html){
+    public void cargarElementos(Document doc){
         Log.i("ENTRE","PARSEAR");
-        if(html!=null) {
-            Document doc = Jsoup.parse(html);
-            Elements personajes = doc.select("div .picture a img.lazy");
+        if(doc!=null) {
+            //Document doc2 = Jsoup.parse(doc);
+            Elements personajes = doc.select("div .listas_elementos .elemento p img.lazy");
             arregloPersonajes(personajes);
         }else{
             Toast.makeText(this,"El html está vacío",Toast.LENGTH_LONG).show();
